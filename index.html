@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Neemat! 🎉</title>
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #b7d0b3, #fc84d6, #eaa887);
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    color: white;
+    overflow-x: hidden;
+  }
+  h1 {
+    font-size: 60px;
+    margin-top: 50px;
+    text-shadow: 3px 3px #ff4d6d;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  #countdown {
+    font-size: 30px;
+    background: rgba(255,255,255,0.2);
+    padding: 20px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 20px;
+  }
+  .message {
+    background: white;
+    color: #ff4d6d;
+    padding: 30px;
+    border-radius: 25px;
+    max-width: 600px;
+    margin: 30px auto;
+    font-size: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  button {
+    background:#ff4d6d;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 10px;
+  }
+  button:hover { transform: scale(1.1); }
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+    .second{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 20px;
+        
+
+    }
+    .card{
+        background-color:white;
+        height: 250px;
+         width: 250px;
+     
+        border:3px solid purple;
+        box-shadow:5px 4px 7px;
+        border-style: solid;
+        border-radius: 30px;
+        overflow: hidden;
+    }
+    .card img{ width: 250px;
+        height: 250px;
+        border-radius: 25px;
+        object-fit: cover;
+      object-position: center;
+      display: block;
+    
+    
+    
+    }
+    
+    .large{
+        height: 100%;
+        width:100%;
+        position:relative;
+
+
+
+    }
+    .large img{
+        width :100%;
+        height:100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 10px;
+
+
+    }
+    @media (max-width:768px){
+      .second{
+        flex-direction:column;
+        width:90%;
+        height:80%;
+        align-items:center;
+        justify-content:center;
+        gap:20px;
+      }
+      .card{
+        height:300px;
+        width:300px;
+      }
+      .card img{
+        height:100%;
+        width:100%;
+      }
+              
+      
+    }
+
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<h1>Happy 20th Birthday Neemat! 🎂</h1>
+
+<div id="countdown"></div>
+
+<div class="message">
+  <p>Dear Neemat 💖</p>
+  <p>On your special day, we just want to say you’re amazing! 
+  May your 20th year be full of laughter, dreams, and all the cake you can eat 🍰</p>
+  <p>Love you tons!</p>
+</div>
+
+<button onclick="startConfetti()">🎊 Pop Confetti!</button>
+<button onclick="toggleMusic()">🎵 Play Music</button>
+
+<audio id="bgMusic" loop>
+  <source src="/AUDIO/nastelbom-happy-birthday-495860.mp3" type="audio/mp3">
+</audio>
+<section class="second">
+
+        
+        <div class=" card">
+            <img src="/pics/neemat4.jpeg">
+    
+
+        </div>
+        <div class="card">
+            <img src="/pics/neemat6.jpeg">
+        </div>
+        <div class="card">
+            <img src="/pics/neemat3.jpeg">
+
+        </div>
+        <div class="card">
+            <img src="/pics/WhatsApp Image 2026-08-03 at 1.24.36 PM.jpeg">
+        </div>
+    </section>
+    <section class="large">
+        <img src="pics/neemat5.jpeg" alt="">
+    </section>
+    
+    <section class="greet">
+        <div>
+          <h1>Greetings</h1>
+        </div>
+    </section>
+    
+
+<script>
+// 1. COUNTDOWN TO AUGUST 14
+const birthday = new Date("August 14, 2026 00:00:00").getTime();
+const countdownEl = document.getElementById("countdown");
+
+setInterval(() => {
+  let now = new Date().getTime();
+  let distance = birthday - now;
+  
+  let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+  if(distance < 0) {
+    countdownEl.innerHTML = "🎉 IT'S BIRTHDAY TIME! 🎉";
+    startConfetti();
+  } else {
+    countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s until your day!`;
+  }
+}, 1000);
+
+// 2. CONFETTI
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let confettiPieces = [];
+
+function startConfetti() {
+  for(let i=0; i<150; i++) {
+    confettiPieces.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height - canvas.height,
+      r: Math.random()*6+4,
+      d: Math.random()*10+10,
+      color: `hsl(${Math.random()*360},100%,50%)`,
+      tilt: Math.random()*10-10
+    });
+  }
+}
+
+function drawConfetti() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiPieces.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    p.y += p.d/5;
+    p.x += Math.sin(p.y/10)*2;
+  });
+  confettiPieces = confettiPieces.filter(p => p.y < canvas.height);
+  requestAnimationFrame(drawConfetti);
+}
+drawConfetti();
+
+// 3. MUSIC TOGGLE
+let music = document.getElementById("bgMusic");
+function toggleMusic() {
+  if(music.paused) music.play();
+  else music.pause();
+}
+</script>
+</body>
+</html>
+
