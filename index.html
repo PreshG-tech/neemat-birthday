@@ -1,248 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">g
-<title>Happy Birthday Neemat! 🎉</title>
-<style>
-  body {
-    margin: 0;
-    background: linear-gradient(135deg, #b7d0b3, #fc84d6, #eaa887);
-    font-family: 'Comic Sans MS', cursive;
-    text-align: center;
-    color: white;
-    overflow-x: hidden;
-  }
-  h1 {
-    font-size: 60px;
-    margin-top: 50px;
-    text-shadow: 3px 3px #ff4d6d;
-    animation: bounce 2s infinite;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-  }
-  #countdown {
-    font-size: 30px;
-    background: rgba(255,255,255,0.2);
-    padding: 20px;
-    border-radius: 20px;
-    display: inline-block;
-    margin: 20px;
-  }
-  .message {
-    background: white;
-    color: #ff4d6d;
-    padding: 30px;
-    border-radius: 25px;
-    max-width: 600px;
-    margin: 30px auto;
-    font-size: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  }
-  button {
-    background:#ff4d6d;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 50px;
-    cursor: pointer;
-    margin: 10px;
-  }
-  button:hover { transform: scale(1.1); }
-  canvas {
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-  }
-    .second{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 20px;
-        
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Neemat! 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #b7d0b3, #fc84d6, #eaa887);
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 60px;
+      margin-top: 50px;
+      text-shadow: 3px 3px #ff4d6d;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    #countdown {
+      font-size: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 20px;
+      display: inline-block;
+      margin: 20px;
+    }
+
+    .message {
+      background: white;
+      color: #ff4d6d;
+      padding: 30px;
+      border-radius: 25px;
+      max-width: 600px;
+      margin: 30px auto;
+      font-size: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .surprise-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 40px auto 60px auto;
+      gap: 10px;
+    }
+
+    .click-label {
+      background: rgba(255, 255, 255, 0.9);
+      color: #ff4d6d;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      display: inline-block;
+    }
+
+    .surprise-box {
+      position: relative;
+      width: 180px;
+      height: 110px;
+      background: linear-gradient(135deg, #ff6b6b, #ff3d81);
+      border: 4px solid #fff;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .surprise-box::before,
+    .surprise-box::after {
+      content: "";
+      position: absolute;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .surprise-box::before {
+      width: 18px;
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 10px;
+    }
+
+    .surprise-box::after {
+      width: 100%;
+      height: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 10px;
+    }
+
+    .surprise-box:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    .surprise-box span {
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .video-modal.open {
+      display: flex;
+    }
+
+    .video-panel {
+      position: relative;
+      width: min(900px, 90vw);
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .video-panel video {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+      background: #000;
+    }
+
+    .close-video {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: #ff4d6d;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .second {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 20px;
+
 
     }
-    .card{
-        background-color:white;
-        height: 250px;
-         width: 250px;
-     
-        border:3px solid purple;
-        box-shadow:5px 4px 7px;
-        border-style: solid;
-        border-radius: 30px;
-        overflow: hidden;
+
+    .card {
+      background-color: white;
+      height: 250px;
+      width: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid purple;
+      box-shadow: 5px 4px 7px;
+      border-style: solid;
+      border-radius: 30px;
+      overflow: hidden;
     }
-    .card img{ width: 250px;
-        height: 250px;
-        border-radius: 25px;
-        object-fit: cover;
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      border-radius: 25px;
+      object-fit: cover;
       object-position: center;
       display: block;
-    
-    
-    
     }
-    
-    .large{
+
+    .large {
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+
+
+    }
+
+    .large img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 10px;
+
+
+    }
+
+    .hearts {
+      font-size: 100px;
+    }
+
+    .greet {
+      padding: 50px;
+    }
+
+    .poem-text {
+      font-size: 40px;
+      line-height: 1.5;
+      text-align: center;
+      padding: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .poem {
+      background-color: rgb(161, 203, 133);
+      border-radius: 60px;
+      padding: 10px;
+    }
+
+    .label {
+      display: block;
+      font-size: 30px;
+      text-align: right;
+      width: 100%;
+    }
+
+    @media (max-width:768px) {
+      .second {
+        flex-direction: column;
+        width: 90%;
+        height: 80%;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .card {
+        height: 300px;
+        width: 300px;
+      }
+
+      .card img {
         height: 100%;
-        width:100%;
-        position:relative;
-
-
-
-    }
-    .large img{
-        width :100%;
-        height:100%;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 10px;
-
-
-    }
-    @media (max-width:768px){
-      .second{
-        flex-direction:column;
-        width:90%;
-        height:80%;
-        align-items:center;
-        justify-content:center;
-        gap:20px;
+        width: 100%;
+        display: block;
       }
-      .card{
-        height:300px;
-        width:300px;
-      }
-      .card img{
-        height:100%;
-        width:100%;
-      }
-              
-      
-    }
 
-</style>
+      .poem-text {
+        font-size: 22px;
+        line-height: 1.6;
+        padding: 18px 14px;
+      }
+
+      .poem {
+        border-radius: 30px;
+      }
+
+      .label {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<canvas id="confetti"></canvas>
+  <canvas id="confetti"></canvas>
 
-<h1>Happy 20th Birthday Neemat! 🎂</h1>
+  <h1>Happy 20th Birthday Neemat! 🎂</h1>
 
-<div id="countdown"></div>
+  <div id="countdown"></div>
 
-<div class="message">
-  <p>Dear Neemat 💖</p>
-  <p>On your special day, we just want to say you’re amazing! 
-  May your 20th year be full of laughter, dreams, and all the cake you can eat 🍰</p>
-  <p>Love you tons!</p>
-</div>
+  <div class="message">
+    <p>Dear Neemat 💖</p>
+    <p>On your special day, we just want to say you’re amazing!
+      May your 20th year be full of laughter, dreams, and all the cake you can eat 🍰</p>
+    <p>Love you tons!</p>
+  </div>
 
-<button onclick="startConfetti()">🎊 Pop Confetti!</button>
-<button onclick="toggleMusic()">🎵 Play Music</button>
+  <button onclick="startConfetti()">🎊 Pop Confetti!</button>
+  <button onclick="toggleMusic()">🎵 Play Music</button>
 
-<audio id="bgMusic" loop>
-  <source src="/AUDIO/nastelbom-happy-birthday-495860.mp3" type="audio/mp3">
-</audio>
-<section class="second">
+  <audio id="bgMusic" loop>
+    <source src="/AUDIO/nastelbom-happy-birthday-495860.mp3" type="audio/mp3">
+  </audio>
+  <section class="second">
 
-        
-        <div class=" card">
-            <img src="/pics/neemat4.jpeg">
-    
 
-        </div>
-        <div class="card">
-            <img src="/pics/neemat6.jpeg">
-        </div>
-        <div class="card">
-            <img src="/pics/neemat3.jpeg">
+    <div class=" card">
+      <img src="/pics/neemat4.jpeg">
 
-        </div>
-        <div class="card">
-            <img src="/pics/WhatsApp Image 2026-08-03 at 1.24.36 PM.jpeg">
-        </div>
-    </section>
-    <section class="large">
-        <img src="pics/neemat5.jpeg" alt="">
-    </section>
-    
-    <section class="greet">
-        <div>
-          <h1>Greetings</h1>
-        </div>
-    </section>
-    
 
-<script>
-// 1. COUNTDOWN TO AUGUST 14
-const birthday = new Date("August 14, 2026 00:00:00").getTime();
-const countdownEl = document.getElementById("countdown");
+    </div>
+    <div class="card">
+      <img src="/pics/neemat6.jpeg">
+    </div>
+    <div class="card">
+      <img src="/pics/neemat3.jpeg">
 
-setInterval(() => {
-  let now = new Date().getTime();
-  let distance = birthday - now;
-  
-  let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-  if(distance < 0) {
-    countdownEl.innerHTML = "🎉 IT'S BIRTHDAY TIME! 🎉";
+    </div>
+    <div class="card">
+      <img src="/pics/WhatsApp Image 2026-08-03 at 1.24.36 PM.jpeg">
+    </div>
+  </section>
+  <section class="large">
+    <img src="pics/neemat5.jpeg" alt="">
+  </section>
+
+  <section class="greet">
+    <div>
+      <h1 class="hearts">💖💖💖💖💖</h1>
+      <h1>Greetings</h1>
+    </div>
+  </section>
+  <section>
+    <div class="poem">
+      <h4 class="poem-text">
+        ✨✨✨✨✨✨✨<br>
+        Twenty years of light, and here you are Neemat,<br>
+        Shining bright and living large.<br>
+        With a heart so kind, and dreams so wide,<br>
+        twenty years for a little bride.<br>
+        Watching you grow with grace and pride,<br>
+        Living each day with a careful mind.<br>
+        Chasing the things that set your soul alight,<br>
+        Not leaving others out of your sight.<br>
+        Your laughter is home, your words feel right,<br>
+        I wish you many more years and a happy life.<br>
+        May every step you take be blessed and bright,<br>
+        a shining path you'll always leave.<br>
+        <span class="label">--- Presh-G</span>
+      </h4>
+    </div>
+  </section>
+
+  <div class="surprise-wrap">
+    <div class="click-label">Click to open</div>
+    <div class="surprise-box" id="surpriseBox" aria-label="Open surprise video">
+      <span>Surprise</span>
+    </div>
+  </div>
+
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="video-panel">
+      <button class="close-video" id="closeVideo" aria-label="Close video">×</button>
+      <video controls playsinline>
+        <source src="vids/bdayvid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <script>
+    // 1. COUNTDOWN TO AUGUST 14
+    const birthday = new Date("August 14, 2026 00:00:00").getTime();
+    const countdownEl = document.getElementById("countdown");
+
+    setInterval(() => {
+      let now = new Date().getTime();
+      let distance = birthday - now;
+
+      let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      if (distance < 0) {
+        countdownEl.innerHTML = "🎉 IT'S BIRTHDAY TIME! 🎉";
+        startConfetti();
+      } else {
+        countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s until your day!`;
+      }
+    }, 1000);
+
+    // 2. CONFETTI
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let confettiPieces = [];
+
     startConfetti();
-  } else {
-    countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s until your day!`;
-  }
-}, 1000);
 
-// 2. CONFETTI
-const canvas = document.getElementById('confetti');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let confettiPieces = [];
+    function startConfetti() {
+      for (let i = 0; i < 150; i++) {
+        confettiPieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 10 + 10,
+          color: `hsl(${Math.random() * 360},100%,50%)`,
+          tilt: Math.random() * 10 - 10
+        });
+      }
+    }
 
-function startConfetti() {
-  for(let i=0; i<150; i++) {
-    confettiPieces.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height - canvas.height,
-      r: Math.random()*6+4,
-      d: Math.random()*10+10,
-      color: `hsl(${Math.random()*360},100%,50%)`,
-      tilt: Math.random()*10-10
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confettiPieces.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        p.y += p.d / 5;
+        p.x += Math.sin(p.y / 10) * 2;
+      });
+      confettiPieces = confettiPieces.filter(p => p.y < canvas.height);
+      requestAnimationFrame(drawConfetti);
+    }
+    drawConfetti();
+
+    // 3. MUSIC TOGGLE
+    let music = document.getElementById("bgMusic");
+    function toggleMusic() {
+      if (music.paused) music.play();
+      else music.pause();
+    }
+
+    // 4. SURPRISE VIDEO MODAL
+    const surpriseBox = document.getElementById('surpriseBox');
+    const videoModal = document.getElementById('videoModal');
+    const closeVideo = document.getElementById('closeVideo');
+    const surpriseVideo = videoModal.querySelector('video');
+
+    surpriseBox.addEventListener('click', () => {
+      videoModal.classList.add('open');
+      videoModal.setAttribute('aria-hidden', 'false');
+      surpriseVideo.currentTime = 0;
+      surpriseVideo.play();
     });
-  }
-}
 
-function drawConfetti() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  confettiPieces.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-    ctx.fillStyle = p.color;
-    ctx.fill();
-    p.y += p.d/5;
-    p.x += Math.sin(p.y/10)*2;
-  });
-  confettiPieces = confettiPieces.filter(p => p.y < canvas.height);
-  requestAnimationFrame(drawConfetti);
-}
-drawConfetti();
+    closeVideo.addEventListener('click', () => {
+      videoModal.classList.remove('open');
+      videoModal.setAttribute('aria-hidden', 'true');
+      surpriseVideo.pause();
+      surpriseVideo.currentTime = 0;
+    });
 
-// 3. MUSIC TOGGLE
-let music = document.getElementById("bgMusic");
-function toggleMusic() {
-  if(music.paused) music.play();
-  else music.pause();
-}
-</script>
+    videoModal.addEventListener('click', (event) => {
+      if (event.target === videoModal) {
+        closeVideo.click();
+      }
+    });
+  </script>
 </body>
-</html>
 
+</html>
