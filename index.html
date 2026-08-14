@@ -427,14 +427,24 @@
     // 2. CONFETTI
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let confettiPieces = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-    startConfetti();
+    let confettiPieces = [];
+    let confettiActive = false;
+    let confettiAnimationId = null;
+    let confettiStopTimeout = null;
 
     function startConfetti() {
-      for (let i = 0; i < 150; i++) {
+      if (confettiActive) return; // avoid stacking multiple bursts
+      confettiActive = true;
+      // reduced burst count
+      const count = 60;
+      for (let i = 0; i < count; i++) {
         confettiPieces.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height - canvas.height,
@@ -444,6 +454,26 @@
           tilt: Math.random() * 10 - 10
         });
       }
+      if (!confettiAnimationId) drawConfetti();
+      // stop producing/animating after 5 seconds
+      confettiStopTimeout = setTimeout(stopConfetti, 5000);
+    }
+
+    function stopConfetti() {
+      confettiActive = false;
+      if (confettiStopTimeout) {
+        clearTimeout(confettiStopTimeout);
+        confettiStopTimeout = null;
+      }
+      // clear remaining pieces shortly after to let a final frame render
+      setTimeout(() => {
+        confettiPieces = [];
+        if (confettiAnimationId) {
+          cancelAnimationFrame(confettiAnimationId);
+          confettiAnimationId = null;
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 300);
     }
 
     function drawConfetti() {
@@ -457,9 +487,13 @@
         p.x += Math.sin(p.y / 10) * 2;
       });
       confettiPieces = confettiPieces.filter(p => p.y < canvas.height);
-      requestAnimationFrame(drawConfetti);
+      if (confettiPieces.length === 0 && !confettiActive) {
+        confettiAnimationId = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return;
+      }
+      confettiAnimationId = requestAnimationFrame(drawConfetti);
     }
-    drawConfetti();
 
     // 3. MUSIC TOGGLE
     let music = document.getElementById("bgMusic");
